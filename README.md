@@ -182,7 +182,6 @@ function levelUp(){
   //score is equal to the number in array speed //up
     if(score === scores[i])
     {
-      
       console.log("speeding");
       //increment every objects speed by 1
       car1.sp++;
