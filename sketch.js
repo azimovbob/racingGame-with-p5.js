@@ -5,6 +5,11 @@ and every time you pass 10th car it will accelerate by 10km/hr, try to get as hi
 Date: 03/19/2020
 collison code borrowed from B.Moren
 https://github.com/bmoren/p5.collide2D/blob/master/p5.collide2d.js
+songs was recorded from 
+https://www.zophar.net/music/nintendo-nes-nsf/race-america
+sound play tutorial
+The coding train
+https://www.youtube.com/watch?v=Pn1g1wjxl_0
 */
 
 
@@ -13,6 +18,9 @@ let scores = [];
 let i = 0;
 let score = 0; 
 let test = 0;
+//songs array initialized
+let songs = [];
+let mode;
 
 //game over text object
 let txt = {
@@ -30,12 +38,22 @@ let txt = {
 
 let bordL;
 let bordR;
+//song preload function, it prealoads the file 
+function preload(){
+  //racing song
+  songs[0] = loadSound(`https://assets.editor.p5js.org/5e668e706626be0024a32163/bfd1b130-891b-47d5-8838-7214c5ce0f3b.m4a`);
+  //crashing song
+  songs[1] = loadSound(`https://assets.editor.p5js.org/5e668e706626be0024a32163/558a5cfd-a41c-4fa4-83a7-765ffd86366f.m4a`);
+}
+
 function setup() {
   //storing the scores to use it later for //levelup function
+  mode=0;
   for(let i=0; i<100;i++){
-    test += 5;
+    test += 10;
     scores[i] = test;
  }
+ 
   //creating instance of Border class
   bordL = new Borders();
   bordR = new Borders();
@@ -45,6 +63,13 @@ function setup() {
 }
  
 function draw() {
+  //it will display the text until player hits //the ENTER
+  if(mode===0){
+    fill(txt.color);
+    textSize(txt.size);
+    text("Press the enter to start", txt.x, txt.y);
+  }
+  if(mode===1){
   background(canv.col);
   moveLines();
   moveTrees();
@@ -54,6 +79,7 @@ function draw() {
   fill(0);
   rect(0,0,600,40);
   displayScore();
+  }
 }
 //design function, drawing the objects, by //calling their draw methods
 function design(){
@@ -107,18 +133,24 @@ function moveCars(){
   let collide = collideCar(myCar.x, myCar.y, myCar.w, myCar.h, car1.x, car1.y, car1.w, car1.h);
   //if colide returns true calls the stop function
   if(collide){
+    //plays the crash song
+    songs[1].play();
     stop();
   }
   //assigning colideCar function for car2, //passing arguement
   let collide2 = collideCar(myCar.x, myCar.y, myCar.w, myCar.h, car2.x, car2.y, car2.w, car2.h);
   //if colide returns true calls the stop function
   if(collide2){
+    //plays the crash song
+    songs[1].play();
     stop();
   }
   //assigning colideCar function for car3, //passing arguement
     let collide3 = collideCar(myCar.x, myCar.y, myCar.w, myCar.h, car3.x, car3.y, car3.w, car3.h);
   //if colide returns true calls the stop function
   if(collide3){
+    //plays the crash song
+    songs[1].play();
     stop();
   }
 }
@@ -153,6 +185,7 @@ function stop(){
     noStroke();
     text(`${txt._textScore}${score}`, txt.x1, txt.y1);
      noLoop();
+     songs[0].stop()
 }
 //trees moving function
 function moveTrees(){
@@ -197,4 +230,10 @@ function levelUp(){
     }
 }
 
-
+function keyPressed(){
+    if(keyCode===ENTER){
+        mode=1;
+       //playing the first song;
+       songs[0].play();
+    }
+}
