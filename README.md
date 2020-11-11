@@ -9,6 +9,9 @@ collison code borrowed from B.Moren
 https://github.com/bmoren/p5.collide2D/blob/master/p5.collide2d.js
 */
 
+/*p5 editor link for this game*/
+https://editor.p5js.org/azimovbob/sketches/LkvG5pT5g
+
 
 //scores array initialized 
 let scores = [];
